@@ -1,16 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import { BrowserRouter as Router } from "react-router-dom"
-import { Budget } from "./components/myBudget.js"
+import React from "react"
+import ReactDOM from "react-dom"
+import Budget from "./myBudget"
+import "bootstrap/dist/css/bootstrap.min.css"
+import { BudgetsProvider } from "./contexts/BudgetsContext"
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-        <Budget />
-    </Router>
+    <BudgetsProvider>
+      <Budget />
+    </BudgetsProvider>
   </React.StrictMode>,
-  document.getElementById('root')
-);
-
-
+  document.getElementById("root")
+)
