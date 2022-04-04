@@ -1,4 +1,4 @@
-import { Button, Stack } from "react-bootstrap"
+import { Button, Navbar, Stack } from "react-bootstrap"
 import Container from "react-bootstrap/Container"
 import AddBudgetForm from "./components/AddBudgetForm"
 import AddExpenseForm from "./components/AddExpenseForm"
@@ -8,7 +8,9 @@ import TotalBudgetCard from "./components/TotalBudgetCard"
 import { useState } from "react"
 import { useBudgets } from "./contexts/BudgetsContext"
 
-const Budget = () => {
+
+export const Budget = () => {
+
   const [showAddBudgetForm, setShowAddBudgetForm] = useState(false)
   const [showAddExpenseForm, setShowAddExpenseForm] = useState(false)
   const [viewExpensesFormBudgetId, setBudgetDetailsBudgetId] = useState()
@@ -22,14 +24,13 @@ const Budget = () => {
 
   return (
     <>
-      <Container className="my-4">
-        <Stack direction="horizontal" gap="2" className="mb-4">
+      <Navbar>
           <h1 className="me-auto">myBudget</h1>
-          <Button variant="outline-secondary">
+          <Button className="me-2" variant="outline-secondary" >
             Login/Logout
           </Button>
-          
-        </Stack>
+      </Navbar>
+      <Container className="my-4">
         <Stack direction="vertical" gap="2" className="mb-4">
         <Button variant="primary" onClick={() => setShowAddBudgetForm(true)}>
             Add Budget

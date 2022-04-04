@@ -1,23 +1,16 @@
-import React, { useState } from "react"
-import { Link, useNavigate } from "react-router-dom";
+import React, { useRef } from "react"
+import { Link } from "react-router-dom";
+import { useNavigate} from "react-router-dom"
 import "./Login.css"
 
 
 export const Login = ({setAuthUser}) => {
-    const [loginUser, setLoginUser] = useState({ email: "" })
-    const [existDialog, setExistDialog] = useState(false)
-
+    const email = useRef()
+    const existDialog = useRef()
     const navigate = useNavigate()
 
-    const handleInputChange = (event) => {
-        const newUser = { ...loginUser }
-        newUser[event.target.id] = event.target.value
-        setLoginUser(newUser)
-    }
-
-
     const existingUserCheck = () => {
-        return fetch(`http://localhost:8088/users?email=${loginUser.email}`)
+        return fetch(`http://localhost:8088/customers?email=${email.current.value}`)
             .then(res => res.json())
             .then(user => user.length ? user[0] : false)
     }
@@ -31,30 +24,29 @@ export const Login = ({setAuthUser}) => {
                     setAuthUser(exists)
                     navigate("/")
                 } else {
-                    setExistDialog(true)
+                    existDialog.current.showModal()
                 }
             })
     }
 
     return (
         <main className="container--login">
-            <dialog className="dialog dialog--auth" open={existDialog}>
+            <dialog className="dialog dialog--auth" ref={existDialog}>
                 <div>User does not exist</div>
-                <button className="button--close" onClick={e => setExistDialog(false)}>Close</button>
+                <button className="button--close" onClick={e => existDialog.current.close()}>Close</button>
             </dialog>
+
             <section>
                 <form className="form--login" onSubmit={handleLogin}>
-                    <h1>Nutshell</h1>
+                    <h1>myBudget</h1>
                     <h2>Please sign in</h2>
                     <fieldset>
                         <label htmlFor="inputEmail"> Email address </label>
-                        <input type="email"
+                        <input ref={email} type="email"
                             id="email"
                             className="form-control"
                             placeholder="Email address"
-                            required autoFocus
-                            value={loginUser.email}
-                            onChange={handleInputChange} />
+                            required autoFocus />
                     </fieldset>
                     <fieldset>
                         <button type="submit">
@@ -64,7 +56,7 @@ export const Login = ({setAuthUser}) => {
                 </form>
             </section>
             <section className="link--register">
-                <Link to="/register">Register for an account</Link>
+                <Link to="/register">Not a member yet?</Link>
             </section>
         </main>
     )
